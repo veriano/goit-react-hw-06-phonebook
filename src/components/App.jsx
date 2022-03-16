@@ -1,7 +1,6 @@
 import { useState, useEffect } from 'react';
-import { configureStore, getDefaultMiddleware, createAction } from '@reduxjs/toolkit';
+import { configureStore, createAction, createReducer } from '@reduxjs/toolkit';
 // import { useSelector, useDispatch } from react-redux;
-import logger from 'redux-logger';
 import { v4 as uuidv4 } from 'uuid';
 import s from './App.module.css';
 import ContactForm from './ContactForm';
@@ -10,7 +9,6 @@ import Filter from './Filter';
 
 
 function App() {
-  const middleware = [...getDefaultMiddleware(), logger];
 
   const store = configureStore({
     reducer: {
@@ -19,28 +17,29 @@ function App() {
         filter: ''
       }
     },
-    middleware,
     devTools: process.env.NODE_ENV === 'development',
 
   })
 
 
-  const [contacts, setContacts] = useState(() => {
-    return JSON.parse(window.localStorage.getItem('contacts')) ?? [];
-  });
+  // const [contacts, setContacts] = useState(() => {
+  //   return JSON.parse(window.localStorage.getItem('contacts')) ?? [];
+  // });
 
-  const [filter, setFilter] = useState('');
+  // const [filter, setFilter] = useState('');
 
-  useEffect(() => {
-    window.localStorage.setItem('contacts', JSON.stringify(contacts));
-  }, [contacts]);
+  // useEffect(() => {
+  //   window.localStorage.setItem('contacts', JSON.stringify(contacts));
+  // }, [contacts]);
 
-  const changeFilter = e => {
-    setFilter(e.currentTarget.value);
-  };
+  const changeFilter = createAction(types.CHANGE_FILTER);
 
-  const addContact = ({ name, number }) => {
-    const contactName = contacts.find(
+  // const changeFilter = e => {
+  //   setFilter(e.currentTarget.value);
+  // };
+
+  const addContacts = createAction(types.ADD, ({ name, number }) => {
+      contactName = contacts.find(
       contact => name.toLowerCase() === contact.name.toLowerCase(),
     );
 
@@ -49,18 +48,40 @@ function App() {
       return;
     }
 
-    const contact = {
-      id: uuidv4(),
-      name,
-      number,
-    };
+    return {
+      payload: {
+        id: uuidv4(),
+        name,
+        number
+      }
+    }
 
-    setContacts([...contacts, contact]);
-  };
+  });
 
-  const deleteContact = contactId => {
-    setContacts(contacts => contacts.filter(({ id }) => id !== contactId));
-  };
+  // const addContact = ({ name, number }) => {
+  //   const contactName = contacts.find(
+  //     contact => name.toLowerCase() === contact.name.toLowerCase(),
+  //   );
+
+  //   if (contactName) {
+  //     alert(`${name} already in contacts.`);
+  //     return;
+  //   }
+
+  //   const contact = {
+  //     id: uuidv4(),
+  //     name,
+  //     number,
+  //   };
+
+  //   setContacts([...contacts, contact]);
+  // };
+
+  const deleteContacts = createAction(types.DELETE);
+
+  // const deleteContact = contactId => {
+  //   setContacts(contacts => contacts.filter(({ id }) => id !== contactId));
+  // };
 
   const getVisibleContacts = () => {
     const normalizedFilter = filter.toLowerCase();
