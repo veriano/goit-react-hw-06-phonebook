@@ -1,10 +1,10 @@
-import './App.css';
-import Form from 'Components/form/Form';
-import Filter from 'Components/filter/Filter';
-import ContactList from 'Components/contacts-list/ContactList';
+import Form from './Components/form/Form';
+import Filter from './Components/filter/Filter';
+import ContactList from './Components/contacts-list/ContactList';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { store } from './redux/store';
+import './App.css';
 
 function App() {
   console.log(store.getState());
