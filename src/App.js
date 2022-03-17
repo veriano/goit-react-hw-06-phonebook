@@ -1,4 +1,4 @@
-import Form from './Components/Form/Form';
+import Form from './Components/Form';
 import Filter from './Components/filter/Filter';
 import ContactList from './Components/contacts-list/ContactList';
 import PropTypes from 'prop-types';
