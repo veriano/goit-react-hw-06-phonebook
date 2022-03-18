@@ -10,7 +10,15 @@ const initialContacts = [
 
 const contactsReducer = createReducer(initialContacts, {
   [types.ADD_CONTACT]: (state, action) => {
-    let similar = state.find((item) => item.name === action.payload.name);
+    // const contactName = contacts.find(
+    //   contact => name.toLowerCase() === contact.name.toLowerCase(),
+    // );
+
+    // if (contactName) {
+    //   alert(`${name} already in contacts.`);
+    //   return;
+    // }
+    let similar = state.find((item) => item.name.toLowerCase() === action.payload.name.toLowerCase());
 
     if (similar !== undefined) {
       alert(`${action.payload.name} is already in contacts.`);

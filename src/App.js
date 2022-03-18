@@ -18,10 +18,5 @@ function App() {
   );
 }
 
-App.propTypes = {
-  id: PropTypes.string,
-  name: PropTypes.string,
-  number: PropTypes.string,
-};
 
 export default connect()(App);
