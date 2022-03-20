@@ -3,9 +3,12 @@ import shortid from 'shortid';
 import PropTypes from 'prop-types';
 import s from './form-styles.module.css';
 import * as actions from '../../redux/contacts-actions';
-import { connect } from 'react-redux';
+// import { connect } from 'react-redux';
+import { useDispatch } from 'react-redux';
 
-function Form({ toAddContact }) {
+export default function Form() {
+  const dispatch = useDispatch();
+
   const [name, setName] = useState('');
   const [number, setNumber] = useState('');
 
@@ -20,10 +23,10 @@ function Form({ toAddContact }) {
   const handleSubmit = event => {
     event.preventDefault();
     const data = { name: name, number: number, id: shortid.generate() };
-    toAddContact(data);
+    dispatch(actions.addContact(data));
     setName('');
     setNumber('');
-  };
+  }
 
   return (
     <form onSubmit={handleSubmit} className={s.form}>
@@ -60,10 +63,10 @@ Form.propTypes = {
   onSubmit: PropTypes.func,
 };
 
-const mapDispatchToProps = dispatch => {
-  return {
-    toAddContact: data => dispatch(actions.addContact(data)),
-  };
-};
+// const mapDispatchToProps = dispatch => {
+//   return {
+//     toAddContact: data => dispatch(actions.addContact(data)),
+//   };
+// };
 
-export default connect(null, mapDispatchToProps)(Form);
+// export default connect(null, mapDispatchToProps)(Form);
